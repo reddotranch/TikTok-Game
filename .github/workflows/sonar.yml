@@ -23,3 +23,11 @@ jobs:
         run: |
           # Scanning files
           trivy fs . > trivyfs.txt
+      - name: Docker Build and Push
+        run:
+          docker build tik-tik-game .
+          docker tag tik-tok-game thereddotranch/tik-tok-game:latest
+          docker login -u {{ .secrets.DOCKERHUB_USERNAME }} -p {{ .secrets.DOCKERHUB_TOKEN }}
+          docker push thereddotranch/tik-tok-game:latest
+        env:
+          DOCKER_CLI_ACI: 1
